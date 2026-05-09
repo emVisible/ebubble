@@ -2,28 +2,30 @@
 
 import { useEffect, useRef } from 'react';
 
-// 注意：需要先申请 Google AdSense，这里先用占位符
 export default function AdBanner() {
-  const adRef = useRef<HTMLDivElement>(null);
+  const adRef = useRef<HTMLModElement>(null);
 
   useEffect(() => {
-    // 正式 AdSense 代码（申请通过后替换）
-    // 目前用公益展示广告代替
-    if (adRef.current && process.env.NODE_ENV === 'production') {
-      // (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-      // (window as any).adsbygoogle.push({});
+    try {
+      // 告诉 AdSense 渲染这个广告位
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      adsbygoogle.push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
     }
   }, []);
 
   return (
-    <div
-      ref={adRef}
-      className="w-full h-full flex items-center justify-center bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-white/70 text-sm"
-    >
-      <div className="text-center">
-        <div className="text-xs opacity-50 mb-1">广告位招租</div>
-        <div>戳破 100 个泡泡解锁成就感 ✨</div>
-      </div>
+    <div className="w-full h-full flex items-center justify-center">
+      <ins
+        ref={adRef}
+        className="adsbygoogle"
+        style={{ display: 'block', width: '100%', height: '100%' }}
+        data-ad-client="ca-pub-4979711795294991"  // ← 你的 publisher ID
+        data-ad-slot="XXXXXXXXXXXX"               // ← 需要替换成你的广告单元 ID
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }
